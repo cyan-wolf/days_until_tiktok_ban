@@ -1,4 +1,4 @@
-from datetime import time, date, datetime, timedelta, UTC
+from datetime import date, timedelta
 
 BAN_SIGN_DATE = date(year=2024, month=4, day=24)
 
