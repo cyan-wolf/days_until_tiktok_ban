@@ -25,6 +25,8 @@ def main():
     d_since_sign = days_since_ban_was_signed()
 
     print(f"Today: {date.today()}")
+    print()
+
     print(f"Date that the bill banning TikTok was signed: {BAN_SIGN_DATE}")
     print(f"Date that TikTok will be banned (at the earliest): {SHORTEST_BAN_DATE}")
     print(f"Date that TikTok will be banned (approximately at the latest): {LONGEST_BAN_DATE}")
