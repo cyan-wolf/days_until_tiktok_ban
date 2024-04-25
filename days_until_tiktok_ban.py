@@ -1,4 +1,5 @@
 from datetime import date, timedelta
+from color_print import Color, color_str
 
 BAN_SIGN_DATE = date(year=2024, month=4, day=24)
 
