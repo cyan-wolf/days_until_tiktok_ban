@@ -27,24 +27,34 @@ def main():
     d_until_ban_short, d_until_ban_long = days_until_ban()
     d_since_sign = days_since_ban_was_signed()
 
+    should_show_shortest_ban_info = date.today() < SHORTEST_BAN_DATE
+    should_show_longest_ban_info = date.today() < LONGEST_BAN_DATE
+
     print(f"Today: {color_str(date.today(), Color.YELLOW)}")
     print()
 
     print(f"Date that the bill banning {TIKTOK_STR} was signed: {color_str(BAN_SIGN_DATE, Color.CYAN)}")
     print(f"Date that {TIKTOK_STR} will be banned (at the earliest): {color_str(SHORTEST_BAN_DATE, Color.CYAN)}")
-    print(f"Date that {TIKTOK_STR} will be banned (approximately at the latest): {color_str(LONGEST_BAN_DATE, Color.CYAN)}")
+    print(f"Date that {TIKTOK_STR} will be banned (at the latest): {color_str(LONGEST_BAN_DATE, Color.CYAN)}")
     print()
 
-    print(f"Days until {TIKTOK_STR} is banned (at the earliest): {color_str(d_until_ban_short, Color.RED)}")
-    print(f"Days until {TIKTOK_STR} is banned (at the latest): {color_str(d_until_ban_long, Color.RED)}")
+    if should_show_shortest_ban_info:
+        print(f"Days until {TIKTOK_STR} is banned (at the earliest): {color_str(d_until_ban_short, Color.RED)}")
+
+    if should_show_longest_ban_info:
+        print(f"Days until {TIKTOK_STR} is banned (at the latest): {color_str(d_until_ban_long, Color.RED)}")
+
     print(f"Days since the bill banning {TIKTOK_STR} was signed: {color_str(d_since_sign, Color.RED)}")
     print()
 
-    progress_short = f"{d_since_sign/d_until_ban_short*100:.2f}%"
-    progress_long = f"{d_since_sign/d_until_ban_long*100:.2f}%"
+    if should_show_shortest_ban_info:
+        progress_short = f"{d_since_sign/d_until_ban_short*100:.2f}%"
+        print(f"Progress on {TIKTOK_STR} getting banned (at the earliest): {color_str(progress_short, Color.GREEN)}")
+    
+    if should_show_longest_ban_info:
+        progress_long = f"{d_since_sign/d_until_ban_long*100:.2f}%"
+        print(f"Progress on {TIKTOK_STR} getting banned (at the latest): {color_str(progress_long, Color.GREEN)}")
 
-    print(f"Progress on {TIKTOK_STR} getting banned (at the earliest): {color_str(progress_short, Color.GREEN)}")
-    print(f"Progress on {TIKTOK_STR} getting banned (at the latest): {color_str(progress_long, Color.GREEN)}")
     print()
 
     _ = input("Press any key to exit...")
