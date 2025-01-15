@@ -13,22 +13,22 @@ def days_until_ban():
     diff_short = SHORTEST_BAN_DATE - now
     diff_long = LONGEST_BAN_DATE - now
 
-    return diff_short.days, diff_long.days
+    return max(diff_short.days, 0), max(diff_long.days, 0)
 
 
 def days_since_ban_was_signed():
     now = date.today()
     diff = now - BAN_SIGN_DATE
 
-    return diff.days
+    return max(diff.days, 0)
 
 
 def main():
     d_until_ban_short, d_until_ban_long = days_until_ban()
     d_since_sign = days_since_ban_was_signed()
 
-    should_show_shortest_ban_info = date.today() < SHORTEST_BAN_DATE
-    should_show_longest_ban_info = date.today() < LONGEST_BAN_DATE
+    should_show_shortest_ban_info = d_until_ban_short > 0
+    should_show_longest_ban_info = d_until_ban_long > 0
 
     print(f"Today: {color_str(date.today(), Color.YELLOW)}")
     print()
@@ -47,13 +47,13 @@ def main():
     print(f"Days since the bill banning {TIKTOK_STR} was signed: {color_str(d_since_sign, Color.RED)}")
     print()
 
-    if should_show_shortest_ban_info:
-        progress_short = f"{d_since_sign/d_until_ban_short*100:.2f}%"
-        print(f"Progress on {TIKTOK_STR} getting banned (at the earliest): {color_str(progress_short, Color.GREEN)}")
+    progress_short = min(d_since_sign / (SHORTEST_BAN_DATE - BAN_SIGN_DATE).days, 1.0)
+    progress_short = f"{progress_short*100:.2f}%"
+    print(f"Progress on {TIKTOK_STR} getting banned (at the earliest): {color_str(progress_short, Color.GREEN)}")
     
-    if should_show_longest_ban_info:
-        progress_long = f"{d_since_sign/d_until_ban_long*100:.2f}%"
-        print(f"Progress on {TIKTOK_STR} getting banned (at the latest): {color_str(progress_long, Color.GREEN)}")
+    progress_long = min(d_since_sign / (LONGEST_BAN_DATE - BAN_SIGN_DATE).days , 1.0)
+    progress_long = f"{progress_long*100:.2f}%"
+    print(f"Progress on {TIKTOK_STR} getting banned (at the latest): {color_str(progress_long, Color.GREEN)}")
 
     print()
 
